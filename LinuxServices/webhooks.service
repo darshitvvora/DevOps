@@ -1,0 +1,16 @@
+[Unit]
+Description=Github Webhook Server
+After=syslog.target
+
+[Service]
+ExecStart=/usr/bin/github-webhook --config=/home/user/repo/webhooks/config.json
+ExecReload=/usr/bin/kill -HUP $MAINPID
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=webhooks
+User=user
+Group=user
+
+[Install]
+WantedBy=multi-user.target

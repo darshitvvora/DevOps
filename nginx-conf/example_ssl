@@ -1,0 +1,4 @@
+listen 443 ssl;
+ssl on;
+ssl_certificate /etc/nginx/ssl/ssl-bundle.crt;
+ssl_certificate_key /etc/nginx/ssl/star.example.com.key;

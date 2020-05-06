@@ -1,0 +1,15 @@
+[Unit]
+Description=Unoconv Daemon
+After=syslog.target
+
+[Service]
+ExecStartPre=-/usr/bin/killall soffice.bin
+ExecStart=/usr/bin/unoconv --listener
+ExecStopPost=-/usr/bin/killall soffice.bin
+User=user
+Group=user
+Restart=on-abort
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

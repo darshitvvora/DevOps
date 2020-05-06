@@ -1,0 +1,5 @@
+location = /favicon.ico {
+  alias  /home/user/repo/api/favicon.ico;
+  access_log off;
+  expires max;
+}

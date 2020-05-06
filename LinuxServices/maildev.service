@@ -1,0 +1,16 @@
+[Unit]
+Description=MailDev
+After=syslog.target
+
+[Service]
+ExecStart=/usr/bin/maildev -s 4025 -w 4080 --outgoing-host mail1.example.com --outgoing-user 'notifications@example.com' --outgoing-pass 'fD[2;2}dfdsf^;' --outgoing-port 587
+ExecReload=/usr/bin/kill -HUP $MAINPID
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=maildev
+User=gloryque
+Group=gloryque
+
+[Install]
+WantedBy=multi-user.target

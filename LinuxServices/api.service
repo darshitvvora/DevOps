@@ -1,0 +1,20 @@
+[Unit]
+Description=Node API
+After=syslog.target
+
+[Service]
+WorkingDirectory=/home/user/repo/api.dist
+ExecStart=/usr/local/bin/node server/boot
+ExecReload=/usr/bin/kill -HUP $MAINPID
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=api
+User=user
+Group=user
+Environment="APP_MAIN=server"
+Environment="WORKER_COUNT=2"
+EnvironmentFile=/home/user/repo/api.dist/.env
+
+[Install]
+WantedBy=multi-user.target

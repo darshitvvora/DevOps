@@ -1,0 +1,7 @@
+statsd_count "$host.requests" 1;
+#statsd_count "$host.$uri" 1; 
+statsd_count "$host.responses.$status" 1 "$status";
+statsd_count "$host.request_length" "$request_length";
+statsd_count "$host.bytes_sent" "$bytes_sent";
+statsd_timing "$host.request_time" "$request_time";
+statsd_timing "$host.response_time" "$upstream_response_time";

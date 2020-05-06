@@ -1,0 +1,504 @@
+{
+    "port": 9999,
+    "path": "/hitme",
+    "secret": "SecretHere",
+    "log": "/home/user/repo/webhooks/logs/access.log",
+    "rules": [{
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'lambda'",
+        "exec": "ssh app 'cd /home/user/repo/lambda; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; kill -HUP $(/usr/sbin/lsof -i:3026 -t); npm run email-deploy;'"	
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'lambda'",
+        "exec": "cd /home/user/repo/lambda; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm install --only=prod; kill -HUP $(/usr/sbin/lsof -i:3026 -t); npm run email-deploy;"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'on-boarding'",
+        "exec": "cd /home/user/repo/on-boarding; git reset --hard; git remote update origin; git checkout staging; git pull origin staging;npm install --production; kill -HUP $(/usr/sbin/lsof -i:3030 -t);"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'campaign'",
+        "exec": "ssh camhh 'cd /home/user/repo/campaign; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --production; chmod +x step4.sh;kill -HUP $(/usr/sbin/lsof -i:8080 -t);'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'haccounts.dist'",
+        "exec": "cd /home/user/repo/haccounts.dist; git reset --hard; git remote update origin; git checkout staging; git pull origin staging"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'haccounts.dist'",
+        "exec": "ssh app 'cd /home/user/repo/haccounts.dist; git reset --hard; git remote update origin; git checkout master; git pull origin master'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging-1' && repository.name == 'cakephp'",
+        "exec": "cd /home/user/repo/cakephp; git reset --hard; git branch -D staging-1; git remote update origin; git checkout staging-1; git pull origin staging-1; find ./app -type f -name '*.php' -not -path './app/Config/email-server.php' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging-1' && repository.name == 'cakephp'",
+        "exec": "ssh s-file \"cd /home/user/public_html/cakephp; git reset --hard; git branch -D staging-1; git remote update origin; git checkout staging-1; git pull origin staging-1; find ./app -type f -name '*.php' -not -path './app/Config/email-server.php' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +\""
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging-2' && repository.name == 'cakephp'",
+        "exec": "cd /home/user/repo/cakephp; git reset --hard; git branch -D staging-2; git remote update origin; git checkout staging-2; git pull origin staging-2; find ./app -type f -name '*.php' -not -path './app/Config/email-server.php' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging-2' && repository.name == 'cakephp'",
+        "exec": "ssh s-file \"cd /home/user/public_html/cakephp; git reset --hard; git branch -D staging-2; git remote update origin; git checkout staging-2; git pull origin staging-2; find ./app -type f -name '*.php' -not -path './app/Config/email-server.php' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +\""
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging-3' && repository.name == 'cakephp'",
+        "exec": "cd /home/user/repo/cakephp; git reset --hard; git branch -D staging-3; git remote update origin; git checkout staging-3; git pull origin staging-3; find ./app -type f -name '*.php' -not -path './app/Config/email-server.php' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'mailers'",
+        "exec": "ssh file \"cd /home/user/QDMS/cdn/mailers; git reset --hard; git pull origin master;\""
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'img'",
+        "exec": "ssh file \"cd /home/user/QDMS/cdn/img; git reset --hard; git pull origin master;\""
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging-3' && repository.name == 'cakephp'",
+        "exec": "ssh s-file \"cd /home/user/public_html/cakephp; git reset --hard; git branch -D staging-3; git remote update origin; git checkout staging-3; git pull origin staging-3; find ./app -type f -name '*.php' -not -path './app/Config/email-server.php' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +\""
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/dev' && repository.name == 'cakephp'",
+        "exec": "ssh app 'cd /home/user/public_html/staging; git reset --hard; git remote update origin; git checkout dev; git pull origin dev'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/dev' && repository.name == 'cakephp'",
+        "exec": "ssh file 'cd /home/user/public_html/staging; git reset --hard; git remote update origin; git checkout dev; git pull origin dev'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'cakephp'",
+        "exec": "ssh app 'cd /home/user/public_html/cakephp; git reset --hard; git remote update origin; git checkout master; git pull origin master'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'cakephp'",
+        "exec": "ssh file 'cd /home/user/public_html/cakephp; git reset --hard; git remote update origin; git checkout master; git pull origin master'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'api'",
+        "exec": "cd /home/user/repo/api; git reset --hard; git checkout master; git branch -D staging; git remote update origin; git checkout staging; git pull origin staging; npm install; grunt build; cd dist; chmod +x cron; git add -A; git update-index --chmod=+x cron; date +'%D %R' | git commit -aF -; git push origin staging"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'api.dist'",
+        "exec": "ssh app 'cd /home/user/repo/api.dist; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; kill -HUP $(/usr/sbin/lsof -i:3040 -t); kill -HUP $(/usr/sbin/lsof -i:3046 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'api.dist'",
+        "exec": "ssh file 'cd /home/user/repo/api.dist; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; kill -HUP $(/usr/sbin/lsof -i:3040 -t); kill -HUP $(/usr/sbin/lsof -i:3046 -t); NODE_ENV=production npm run email-deploy;'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'api.dist'",
+        "exec": "cd /home/user/repo/api.dist; git reset --hard; git checkout master; git branch -D staging; git remote update origin; git checkout staging; git pull origin staging; npm install --only=prod; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; kill -HUP $(/usr/sbin/lsof -i:3040 -t); kill -HUP $(/usr/sbin/lsof -i:3046 -t);NODE_ENV=production npm run email-deploy;"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'api.dist'",
+        "exec": "ssh s-file \"cd /home/user/repo/api.dist; git reset --hard; git checkout master; git branch -D staging; git remote update origin; git checkout staging; git pull origin staging;npm install --only=prod; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; kill -HUP $(/usr/sbin/lsof -i:3040 -t); kill -HUP $(/usr/sbin/lsof -i:3046 -t);NODE_ENV=production npm run email-deploy;\""
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'capi'",
+        "exec": "cd /home/user/repo/capi; git reset --hard; git checkout master; git branch -D staging; git remote update origin; git checkout staging; git pull origin staging; npm install; grunt build; cd dist; git checkout cron; git add -A; date +'%D %R' | git commit -aF -; git push origin staging"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'capi.dist'",
+        "exec": "ssh s-file 'cd /home/user/repo/capi.dist; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --production; kill -HUP $(/usr/sbin/lsof -i:3040 -t); kill -HUP $(/usr/sbin/lsof -i:3047 -t) && rsync -av /home/user/repo/capi.dist app:/home/user/repo/' && ssh app 'kill -HUP $(/usr/sbin/lsof -i:3047 -t)'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'capi.dist'",
+        "exec": "cd /home/user/repo/capi.dist; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm install --production; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; kill -HUP $(/usr/sbin/lsof -i:3040 -t); kill -HUP $(/usr/sbin/lsof -i:3047 -t);"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/dev' && repository.name == 'qnotify'",
+        "exec": "cd /home/user/repo/qnotify; git reset --hard; git pull origin dev; npm i --only=prod; kill -HUP $(/usr/sbin/lsof -i:3005 -t)"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'qnotify'",
+        "exec": "ssh app 'cd /home/user/repo/qnotify; git reset --hard; git pull origin master; npm i --only=prod; kill -HUP $(/usr/sbin/lsof -i:3005 -t)'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'accounts'",
+        "exec": "cd /home/user/repo/accounts; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i && npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'accounts'",
+        "exec": "cd /home/user/repo/accounts; rsync -avz dist/client app:~/repo/accounts.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/dev' && repository.name == 'hire'",
+        "exec": "cd /home/user/repo/hire; git reset --hard; git remote update origin; git checkout dev; git pull origin dev; npm i; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'hire'",
+        "exec": "cd /home/user/repo/hire; rsync -avz dist/client app:~/repo/hire.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'partner'",
+        "exec": "cd /home/user/repo/partner; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'partner'",
+        "exec": "cd /home/user/repo/partner; rsync -avz dist/client app:~/repo/partner.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'manage'",
+        "exec": "cd /home/user/repo/manage; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'manage'",
+        "exec": "cd /home/user/repo/manage; rsync -avz dist/client app:~/repo/manage.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'search'",
+        "exec": "cd /home/user/repo/search; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'search'",
+        "exec": "cd /home/user/repo/search; rsync -avz dist/client app:~/repo/search.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'team'",
+        "exec": "cd /home/user/repo/team; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'team'",
+        "exec": "cd /home/user/repo/team; rsync -avz dist/client app:~/repo/team.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'billing'",
+        "exec": "cd /home/user/repo/billing; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i && npm run build; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; npm run migrate;  cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:4001 -t); kill -HUP $(/usr/sbin/lsof -i:4002 -t); NODE_ENV=production node server/emails deploy deploy"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'billing'",
+        "exec": "ssh app 'cd /home/user/repo/billing; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; npm run migrate; cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:4001 -t); kill -HUP $(/usr/sbin/lsof -i:4002 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'billing'",
+        "exec": "cd /home/user/repo/billing; rsync -avz dist/client app:~/repo/billing.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/dev' && repository.name == 'microsite'",
+        "exec": "cd /home/user/repo/microsite; git reset --hard; git remote update origin; git checkout dev; git pull origin dev; npm i; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'microsite'",
+        "exec": "cd /home/user/repo/microsite; rsync -avz dist/client app:~/repo/microsite.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'apply'",
+        "exec": "cd /home/user/repo/apply; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'apply'",
+        "exec": "cd /home/user/repo/apply; rsync -avz dist/client app:~/repo/apply.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'access'",
+        "exec": "cd /home/user/repo/access; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'access'",
+        "exec": "cd /home/user/repo/access; rsync -avz dist/client app:~/repo/access.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'qdesk.dist'",
+        "exec": "cd /home/user/repo/qdesk.dist; git reset --hard; git remote update origin; git checkout staging; git pull origin staging"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'qdesk.dist'",
+        "exec": "ssh app 'cd /home/user/repo/qdesk.dist; git reset --hard; git remote update origin; git checkout master; git pull origin master'"
+      },
+      {
+       "event": "push",
+       "match": "ref == 'refs/heads/staging' && repository.name == 'es-sql'",
+       "exec": "ssh s-solr 'cd repo/es-sql/; git reset --hard; git branch -D staging; git remote update origin; git checkout staging; git pull origin staging; chmod +x init.sh; ./init.sh'"
+      },
+      {
+       "event": "push",
+       "match": "ref == 'refs/heads/master' && repository.name == 'es-sql'",
+       "exec": "ssh es1 'cd repo/es-sql/; git reset --hard; git branch -D master; git remote update origin; git checkout master; git pull origin master; chmod +x init.sh; ./init.sh'"
+      },
+      {
+       "event": "push",
+       "match": "ref == 'refs/heads/master' && repository.name == 'tasseo'",
+       "exec": "ssh qnotify 'cd repo/tasseo/; git reset --hard; git branch -D master; git remote update origin; git checkout master; git pull origin master;'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'hmanage'",
+        "exec": "cd /home/user/repo/hmanage/dist; git reset --hard; git checkout master; git branch -D staging; git remote update origin; git checkout staging; git pull origin staging; cd /home/user/repo/hmanage; git reset --hard; git checkout master; git branch -D staging; git remote update origin; git checkout staging; git pull origin staging; npm install; npm run build; cd dist; chmod +x cron; git add -A; git update-index --chmod=+x cron; date +'%D %R' | git commit -aF -; git push origin staging --force"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'hmanage.dist'",
+        "exec": "cd /home/user/repo/hmanage.dist; git reset --hard; git checkout master; git branch -D staging; git remote update origin; git checkout staging; git pull origin staging; npm install --only=prod; kill -HUP $(/usr/sbin/lsof -i:5050 -t); kill -HUP $(/usr/sbin/lsof -i:5054 -t);"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'hmanage.dist'",
+        "exec": "ssh hmanage 'cd /home/user/headhonchos/hmanage.dist; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; kill -HUP $(/usr/sbin/lsof -i:5050 -t); kill -HUP $(/usr/sbin/lsof -i:5054 -t)'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'concall'",
+        "exec": "ssh call 'cd /home/user/repo/call.dist; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; kill -HUP $(/usr/sbin/lsof -i:3636 -t);'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'concall'",
+        "exec": "cd /home/user/repo/call.dist; git reset --hard; git checkout master; git branch -D staging; git remote update origin; git checkout staging; git pull origin staging; npm install --only=prod; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; kill -HUP $(/usr/sbin/lsof -i:3636 -t);"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/dev' && repository.name == 'vendor'",
+        "exec": "cd /home/user/repo/vendor; git reset --hard; git remote update origin; git checkout dev; git pull origin dev; npm i; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'vendor'",
+        "exec": "cd /home/user/repo/vendor; rsync -avz dist/client app:~/repo/vendor.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'aspire'",
+        "exec": "cd /home/user/repo/aspire; rsync -avz dist/client app:~/repo/aspire.dist; ssh app 'cd repo/aspire; git reset --hard; git remote update origin; git pull; npm i --production; kill -HUP $(/usr/sbin/lsof -i:4000 -t);'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'aspire'",
+        "exec": "cd /home/user/repo/aspire; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i; npm run build; kill -HUP $(/usr/sbin/lsof -i:4000 -t); cp -r client/bower_components/angular-placeholder-shimmer/ dist/client/bower_components/"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'marq'",
+        "exec": "cd /home/user/repo/marq; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'endclients'",
+        "exec": "cd /home/user/repo/endclients; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'endclients'",
+        "exec": "cd /home/user/repo/endclients; rsync -avz dist/client app:~/repo/endclients.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'admin'",
+        "exec": "cd /home/user/repo/admin; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'admin'",
+        "exec": "cd /home/user/repo/admin; rsync -avz dist/client app:~/repo/admin.dist"
+      },
+      {  
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'analytics'",
+        "exec": "ssh s-analytics 'cd /home/user/repo/analytics; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i && npm run build;  npm run migrate;  cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:6000 -t); kill -HUP $(/usr/sbin/lsof -i:6002 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'analytics'",
+        "exec": "ssh app 'cd /home/user/repo/analytics; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; npm run migrate; cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:6000 -t); kill -HUP $(/usr/sbin/lsof -i:6002 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'analytics'",
+        "exec": "ssh s-analytics 'cd /home/user/repo/analytics; rsync -avz dist/ app:~/repo/analytics.dist'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'xpro'",
+        "exec": "ssh s-analytics 'cd /home/user/repo/xpro; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i && npm run build; npm run migrate; cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:7000 -t);kill -HUP $(/usr/sbin/lsof -i:6022 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'xpro'",
+        "exec": "ssh xpro 'cd /home/user/repo/xpro; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; npm run migrate; cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:7000 -t);kill -HUP $(/usr/sbin/lsof -i:6022 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'xpro'",
+        "exec": "ssh s-analytics 'cd /home/user/repo/xpro; rsync -avz dist/client xpro:~/repo/xpro.dist'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'c3'",
+        "exec": "ssh inbox 'cd /home/user/repo/c3; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install; npm run migrate; npm run build; cd dist; chmod +x cron; npm install --only=prod; cd ../lambda; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:6000 -t); kill -HUP $(/usr/sbin/lsof -i:6002 -t); NODE_ENV=production node server/emails deploy;'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'algo'",
+        "exec": "cd /home/user/repo/algo; git reset --hard;git remote update origin; git checkout staging;git pull origin staging;nvm use;npm i;kill -HUP $(/usr/sbin/lsof -i:9090 -t);cd client; nvm use; npm i; npm run build;"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'algo'",
+        "exec": "ssh algo '. ~/.nvm/nvm.sh;cd /home/user/repo/algo; git reset --hard;git remote update origin; git checkout master;git pull origin master;nvm use;npm i;kill -HUP $(/usr/bin/lsof -i:9090 -t);cd client; nvm use; npm i; npm run build;'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'approval'",
+        "exec": "cd /home/user/repo/approval; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i && npm run build; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; npm run migrate;  cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:6500 -t); kill -HUP $(/usr/sbin/lsof -i:6502 -t); NODE_ENV=production node server/emails deploy deploy"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'approval'",
+        "exec": "ssh app 'cd /home/user/repo/approval; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; npm run migrate; cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:6517 -t); kill -HUP $(/usr/sbin/lsof -i:6502 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'approval'",
+        "exec": "cd /home/user/repo/approval; rsync -avz dist/client app:~/repo/approval.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'verify'",
+        "exec": "cd /home/user/repo/verify; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i && npm run build; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:3333 -t); cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:3335 -t); NODE_ENV=production node server/emails deploy deploy"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'verify'",
+        "exec": "ssh verify 'cd /home/user/repo/verify; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; npm run migrate; cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:3333 -t); kill -HUP $(/usr/sbin/lsof -i:3335 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'verify'",
+        "exec": "cd /home/user/repo/verify; rsync -avz dist/client verify:~/repo/verify.dist"
+      },
+      {  
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'resume-builder'",
+        "exec": ". ~/.nvm/nvm.sh;cd /home/user/repo/resume-builder; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i --only=prod; cd client; nvm exec 10.16 npm i --only=prod; nvm exec 10.16 ng build --prod; kill -HUP $(/usr/sbin/lsof -i:9111 -t);"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'resume-builder'",
+        "exec": "ssh verify 'cd /home/user/repo/resume-builder; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; kill -HUP $(/usr/sbin/lsof -i:9111 -t);'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'resume-builder'",
+        "exec": "cd /home/user/repo/resume-builder/client; rsync -avz dist/client/ verify:~/repo/resume-builder.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'campus'",
+        "exec": "cd /home/user/repo/campus; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i; npm run build"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'campus'",
+        "exec": "cd /home/user/repo/campus; rsync -avz dist/client app:~/repo/campus.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'doc-generator'",
+        "exec": "cd /home/user/repo/doc-generator; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i && npm run build; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:8000 -t); cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:8003 -t); NODE_ENV=production node server/emails deploy deploy"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'doc-generator'",
+        "exec": "ssh verify 'cd /home/user/repo/doc-generator; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; npm run migrate; cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:8000 -t); kill -HUP $(/usr/sbin/lsof -i:8003 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'doc-generator'",
+        "exec": "cd /home/user/repo/doc-generator; rsync -avz dist/client verify:~/repo/doc-generator.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'posh'",
+        "exec": "cd /home/user/repo/posh; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i && npm run build; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:9500 -t); cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:9502 -t); NODE_ENV=production node server/emails deploy deploy;"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'posh'",
+        "exec": "ssh verify 'cd /home/user/repo/posh; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; npm run migrate; cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:9500 -t); kill -HUP $(/usr/sbin/lsof -i:9502 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'posh'",
+        "exec": "cd /home/user/repo/posh; rsync -avz dist/client verify:~/repo/posh.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'accounts'",
+        "exec": "ssh app 'cd /home/user/repo/accounts; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; npm run migrate; cd lambda; npm i --only=prod; npm run migrate; kill -HUP $(/usr/sbin/lsof -i:2000 -t); kill -HUP $(/usr/sbin/lsof -i:2004 -t); NODE_ENV=production node server/emails deploy deploy'"
+      },
+      {  
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'echat'",
+        "exec": ". ~/.nvm/nvm.sh;cd /home/user/repo/echat; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i --only=prod; cd client; nvm exec 10.16 npm i --only=prod; nvm exec 10.16 ng build --prod; kill -HUP $(/usr/sbin/lsof -i:6005 -t);"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'echat'",
+        "exec": "ssh c3 'cd /home/user/repo/echat; git reset --hard; git remote update origin; git checkout master; git pull origin master; npm install --only=prod; kill -HUP $(/usr/sbin/lsof -i:6005 -t);'"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/master' && repository.name == 'echat'",
+        "exec": "cd /home/user/repo/echat/client; rsync -avz dist/chat/ c3:~/repo/echat.dist"
+      },
+      {
+        "event": "push",
+        "match": "ref == 'refs/heads/staging' && repository.name == 'utility'",
+        "exec": "cd /home/user/repo/utility; git reset --hard; git remote update origin; git checkout staging; git pull origin staging; npm i && npm run build; find . -type f -name '*.js' -not -path './node_modules/*' -exec sed -i 's/@\\(example.com\\|example.in\\)/@example.in/g' {} +; kill -HUP $(/usr/sbin/lsof -i:3018 -t);"
+      }
+    ]
+  }
+
+  
