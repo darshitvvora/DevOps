@@ -1,0 +1,36 @@
+ # DDoS Mitigation 
+
+ # Timeouts, do not keep connections open longer then necessary to reduce
+    # resource usage and deny Slowloris type attacks.
+
+    # reset timed out connections freeing ram
+    reset_timedout_connection on;
+
+    # timeout which a single keep-alive client connection will stay open
+    keepalive_timeout 65s;
+    # maximum time between packets nginx is allowed to pause when sending the client data
+    send_timeout 10s;
+
+    # number of requests per connection
+    keepalive_requests 100; 
+
+
+    # Used for closing slow connections
+
+    # maximum time between packets the client can pause when sending nginx any data
+    client_body_timeout 10s;
+    # maximum time the client has to send the entire header to nginx
+    client_header_timeout 10s;
+    
+
+# Connection Limiting
+    limit_conn_zone $binary_remote_addr zone=perip:10m;
+    limit_conn perip 100;
+
+# Rate Limiting separate for static and api
+    limit_req_zone $binary_remote_addr zone=engine:10m rate=2r/s;
+    limit_req_zone $binary_remote_addr zone=static:10m rate=100r/s;
+
+
+# Limiting max client body size
+    client_max_body_size 10m;    
