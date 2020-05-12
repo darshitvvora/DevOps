@@ -1,5 +1,14 @@
  # DDoS Mitigation 
 
+##############################################################################
+# 1.    WHAT IS DDOS ATTACK?
+# Attempt to make a service unavailable or spike up cost of server resources
+# Characteristics
+# i.  Bombarding traffic to server using multiple machine typically using bots
+# ii. Opening concurrent small connections with server on large scale
+# iii.    Sending multiple request with large payloads
+###############################################################################
+
  # Timeouts, do not keep connections open longer then necessary to reduce
     # resource usage and deny Slowloris type attacks.
 
@@ -24,10 +33,19 @@
     
 
 # Connection Limiting
+
+##########################################################
+#  limit_conn perip allow no more than 100 simultaneous connections to that specific IP
+##########################################################
+
     limit_conn_zone $binary_remote_addr zone=perip:10m;
-    limit_conn perip 100;
+    limit_conn perip 100;  
 
 # Rate Limiting separate for static and api
+
+##########################################################
+#  limit_conn perip allow no more than 100 simultaneous connections to that specific IP
+##########################################################  
     limit_req_zone $binary_remote_addr zone=engine:10m rate=2r/s;
     limit_req_zone $binary_remote_addr zone=static:10m rate=100r/s;
 
