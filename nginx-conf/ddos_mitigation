@@ -48,7 +48,16 @@
 ##########################################################  
     limit_req_zone $binary_remote_addr zone=engine:10m rate=10r/s;
     limit_req_zone $binary_remote_addr zone=static:10m rate=100r/s;
-
+#############################
+# sample to add in each reverse proxy server config
+#location / {
+#    limit_req zone=engine burst=20 nodelay;
+#    limit_req_status 429;
+#    proxy_pass http://my_upstream;
+#}
+#
+#
+#
 
 # Limiting max client body size
     client_max_body_size 10m;    
